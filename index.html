@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#081B33" />
-  <title>Document Cortex: 让申请材料从文件变成可验证的申请数据 | EZCollegeApp Blog</title>
+  <title>Document Cortex: Turning Application Files into Trusted Context | EZCollegeApp Blog</title>
   <meta
     name="description"
-    content="EZCollegeApp Document Cortex 如何把成绩单、活动简历、奖项证书、文书和申请材料变成可追溯、可审核、可行动的申请数据。"
+    content="How EZCollegeApp Document Cortex turns transcripts, resumes, score reports, essays, and supporting materials into trusted, reviewable application context."
   />
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500;1,600&family=Space+Grotesk:wght@500;600;700&display=swap");
@@ -747,23 +747,23 @@
           <div class="hero-pill">Product Deep Dive · June 2026</div>
           <h1>
             Document Cortex
-            <span class="gold">让申请材料变成可验证数据</span>
+            <span class="gold">Turning application files into trusted context</span>
           </h1>
           <p class="hero-sub">
-            上传材料不该只是躺在文件柜里。它应该成为 AI 顾问、自动填表、文书洞察和申请画像共同信任的事实底座。
+            Uploaded materials should not sit in a digital file cabinet. They should help students review facts, complete forms, strengthen essays, and get guidance they can trust.
           </p>
           <ul class="hero-meta" aria-label="Article metadata">
-            <li><strong>EZCollegeApp Team</strong> — Product and AI systems</li>
-            <li><strong>8 min read</strong> · Built for students, parents, and counselors</li>
-            <li><strong>核心观点</strong>：申请材料不是附件，而是可追溯的 Evidence Graph</li>
+            <li><strong>EZCollegeApp Team</strong> — Product and applied AI</li>
+            <li><strong>7 min read</strong> · Built for students, families, and counselors</li>
+            <li><strong>Core idea</strong>: application materials should power trustworthy action, not just storage</li>
           </ul>
         </div>
         <figure class="hero-art" aria-label="Document Cortex illustration">
           <div class="hero-art-frame">
-            <img src="assets/document-cortex-hero.png" alt="Document Cortex turns transcripts, resumes, essays, score reports, and certificates into verified profile data, autofill suggestions, counselor context, and essay insights." />
+            <img src="assets/document-cortex-hero.png" alt="Document Cortex turns application materials into profile review, form suggestions, counselor context, and essay insights." />
           </div>
           <figcaption class="hero-art-caption">
-            Document Cortex 将成绩单、简历、文书、标化成绩和证书组织成页、章节和证据，再连接到申请动作。
+            Document Cortex turns uploaded application materials into trusted context for the parts of the application workflow that need accuracy.
           </figcaption>
         </figure>
       </div>
@@ -771,101 +771,88 @@
 
     <main class="article-section">
       <div class="article-wrap">
-        <aside class="toc" aria-label="文章目录">
-          <div class="toc-label">本文导览</div>
+        <aside class="toc" aria-label="Article guide">
+          <div class="toc-label">Guide</div>
           <ol class="toc-list">
-            <li><a class="active" href="#why">为什么 OCR 不够</a></li>
-            <li><a href="#safe-ingest">Safe Ingest</a></li>
-            <li><a href="#sourcemap">SourceMap Indexing</a></li>
-            <li><a href="#evidence">Evidence Graph</a></li>
-            <li><a href="#actions">Application Actions</a></li>
-            <li><a href="#reliability">可靠性即产品能力</a></li>
-            <li><a href="#example">学生视角示例</a></li>
-            <li><a href="#why-matters">为什么重要</a></li>
+            <li><a class="active" href="#why">Why storage is not enough</a></li>
+            <li><a href="#cortex">What Document Cortex does</a></li>
+            <li><a href="#trust">Trust built in</a></li>
+            <li><a href="#actions">Application actions</a></li>
+            <li><a href="#reliability">Reliability users can feel</a></li>
+            <li><a href="#example">A student example</a></li>
+            <li><a href="#why-matters">Why it matters</a></li>
           </ol>
         </aside>
 
         <article class="prose">
           <p>
-            大学申请里最重的工作，往往不是写下一句话，而是确认这句话有没有依据。学生会上传成绩单、活动简历、奖项证书、标化成绩、护照信息、Common App 草稿、文书初稿、推荐信片段。传统系统通常把这些材料当作“附件”：上传、保存、也许做一次 OCR，然后交给 AI 摘要。
+            In college admissions, the hardest work is often not writing one more sentence. It is knowing whether the facts behind that sentence are correct. A student may have transcripts, activity resumes, award certificates, score reports, identity documents, essay drafts, and school-specific forms spread across different files.
           </p>
           <p>
-            但申请场景需要的不是摘要。它需要的是可信的、可回到原文的、可以直接推进申请动作的数据。
+            Most products treat those materials as attachments: upload them, store them, maybe summarize them later. But an admissions workflow needs more than a file cabinet. It needs trustworthy context that can support decisions, suggestions, and review.
           </p>
 
           <div class="callout">
             <div class="callout-title">The Core Idea</div>
             <p>
-              Document Cortex 不是文件存储系统，而是把申请材料转化为 Evidence Graph 的文档智能中枢。它保留原始材料的页码、章节和证据位置，同时抽取出可用于画像、问答、自动填表和文书分析的结构化申请信息。
+              Document Cortex is not a document storage feature. It is the intelligence layer that helps EZCollegeApp turn uploaded materials into private, reviewable application context for profile building, form completion, essay feedback, and AI counselor guidance.
             </p>
           </div>
 
-          <h2 id="why">为什么普通 OCR <em>不够</em></h2>
+          <h2 id="why">Why File Storage Is <em>Not Enough</em></h2>
           <p>
-            OCR 解决的是“看见文字”，但申请智能要解决的是“理解这些文字为什么重要”。成绩单里的一行 GPA，不只是数字。它可能影响学校匹配、录取预测、申请表字段和顾问建议。活动简历里的一段志愿经历，也可能对应 Common App Activities 的活动名称、职位、组织、年级、小时数和影响描述。
+            Reading words from a file is only the beginning. In admissions, a single detail can affect school planning, profile review, application forms, essay strategy, and counselor advice. A GPA is not just a number. An activity description is not just a paragraph. An award is not just a line item.
           </p>
-          <p>真正的问题有三层：</p>
+          <p>The real challenge has three parts:</p>
           <ul class="plain-list">
-            <li><strong>材料很乱。</strong> PDF、图片、文档、纯文本混在一起，扫描质量和排版都不稳定。</li>
-            <li><strong>信息会冲突。</strong> 学生手填资料、旧简历、最新成绩单和顾问资料可能不一致。</li>
-            <li><strong>AI 必须可追溯。</strong> 如果系统建议填入一个生日、GPA、奖项或活动，用户必须知道它来自哪份文件、哪一页、哪段文字。</li>
+            <li><strong>Materials are messy.</strong> Admissions files come in different formats, qualities, and structures.</li>
+            <li><strong>Information can conflict.</strong> A student's profile, old resume, latest transcript, and counselor notes may disagree.</li>
+            <li><strong>AI must stay accountable.</strong> When a system suggests a date, score, award, or activity, the user needs a clear reason to trust it.</li>
           </ul>
           <p>
-            所以 Document Cortex 的目标不是“读完文件”，而是把每份材料变成可定位、可引用、可行动的申请证据。
+            Document Cortex is built around that reality. It does not try to make uploaded files disappear into a black box. It helps turn them into context that students and families can review before they act.
           </p>
 
           <figure class="figure-card">
             <img src="assets/document-cortex-hero.png" alt="Document Cortex system diagram" />
             <figcaption>
-              从左侧的真实申请材料，到中间的 Document Cortex，再到右侧的 Verified Profile、Autofill Suggestions、AI Counselor Context 和 Essay Insights。
+              From real application materials to the product experiences that need reliable context: profile review, form suggestions, counselor guidance, and essay insights.
             </figcaption>
           </figure>
 
-          <h2 id="safe-ingest">1. Safe Ingest: 上传时就开始做<em>正确的事</em></h2>
+          <h2 id="cortex">What Document Cortex <em>Does</em></h2>
           <p>
-            用户上传文件时，系统会先做安全接收和去重：文件被分块读取，边接收边校验大小和内容指纹，避免大文件一次性挤占内存。相同文件不会重复解析；同名但内容更新的文件会触发重新理解。每个文件都有清晰状态：等待处理、正在理解、已就绪、失败、可重试。
+            Document Cortex gives EZCollegeApp a consistent way to turn application materials into usable context across the product. The promise is simple: keep the student in control, preserve the source of truth, and turn files into support for real application work.
           </p>
           <p>
-            这一步看起来像基础设施，但它决定了用户体验：学生不应该因为一个大 PDF 卡住整个页面，也不应该因为一个损坏文件误以为系统已经成功读取。
-          </p>
-
-          <h2 id="sourcemap">2. SourceMap Indexing: 先<em>保真</em>，再理解</h2>
-          <p>Document Cortex 对不同材料采用不同阅读策略：</p>
-          <ul class="plain-list">
-            <li>可复制文本的 PDF：优先保留页级文本。</li>
-            <li>扫描页或图片：用视觉理解补齐低文本页面。</li>
-            <li>Word 文档：先转成稳定的文本结构，再做语义理解。</li>
-            <li>Markdown / TXT：走轻量本地解析，不消耗高级分析额度。</li>
-          </ul>
-          <p>
-            关键点是：系统不会把一份材料压扁成一段摘要。它会建立 SourceMap Indexing，把文件拆成“页”“章节”“摘要”“原文内容”的可定位结构。页码边界会被保留，章节范围会被校验，原始文本不会被模型随意改写。
+            That context can help the product recognize which facts are likely ready to use, which facts need confirmation, and which areas deserve a more cautious recommendation. The result is not "AI read my files." The result is "the system can help me move through my application with more confidence."
           </p>
 
           <div class="research">
             <div class="tag">Design Principle</div>
-            <div class="title">先保存可验证的原文边界，再让 AI 做<em>语义组织</em>。</div>
+            <div class="title">Product intelligence should be useful only when it is also <em>reviewable</em>.</div>
             <p>
-              这让后续所有能力都有一个共同基础：AI 可以说明“我为什么这么判断”，用户也能回到源文件验证。
+              The strongest AI experiences in admissions are not the most dramatic. They are the ones that explain themselves clearly enough for a family to make a decision.
             </p>
           </div>
 
-          <h2 id="evidence">3. Evidence Graph: 每个申请事实都有<em>出处</em></h2>
+          <h2 id="trust">Trust Built <em>In</em></h2>
           <p>
-            文件被理解后，Document Cortex 会生成 Evidence Graph。它不是简单的关键词索引，而是一个面向申请任务的证据网络：
+            Admissions work is too important for silent assumptions. Document Cortex is designed to keep a clear distinction between what a file supports, what the student has already entered, and what the system is recommending.
           </p>
           <ul class="plain-list">
-            <li>这份文件像成绩单、简历、奖项、推荐信、文书，还是综合资料包？</li>
-            <li>哪些页面包含个人信息、教育经历、标化成绩、活动、荣誉或家庭背景？</li>
-            <li>哪些字段可以被高置信度填入申请画像？</li>
-            <li>哪些建议需要用户确认，因为它可能来自间接证据或与已有资料冲突？</li>
+            <li><strong>Grounded suggestions.</strong> Important recommendations are connected to the materials that support them.</li>
+            <li><strong>Visible uncertainty.</strong> If a detail is incomplete or potentially conflicting, the product treats it as something to review, not something to hide.</li>
+            <li><strong>User control.</strong> Students can accept, edit, or ignore suggestions instead of letting automation overwrite their application.</li>
+            <li><strong>Private by design.</strong> Application context exists to help the student's workflow, not to become public data.</li>
           </ul>
           <p>
-            Evidence Graph 的核心原则是：上传文件是事实来源，已有画像只是对照上下文。系统不会因为用户旧资料里有一个值，就把它伪装成“文件证据”。当文件和现有资料冲突时，系统会保留文件依据，并把冲突解释给用户。
+            This is the difference between a helpful assistant and a confident black box. The goal is not to remove judgment from the application process. The goal is to make judgment faster, better informed, and easier to verify.
           </p>
 
-          <h2 id="actions">4. Application Actions: 从理解走向<em>行动</em></h2>
+          <h2 id="actions">From Context to <em>Action</em></h2>
           <p>
-            一旦材料进入 Evidence Graph，它就不再只是文件列表里的附件，而会进入申请工作流。
+            Once application materials become trusted context, they can support the parts of the admissions workflow that create the most repetitive work for students and families.
           </p>
 
           <ol class="editorial-list">
@@ -873,85 +860,85 @@
               <span class="ed-num">01</span>
               <div class="ed-body">
                 <span class="ed-tag">Verified Profile</span>
-                <h3 class="ed-name">从材料补全<em>学生画像</em></h3>
-                <p class="ed-desc">从成绩单、护照、简历和 Common App 资料中提取可以审核的画像字段。</p>
+                <h3 class="ed-name">Review the student profile with <em>more confidence</em></h3>
+                <p class="ed-desc">Help students compare their profile against the materials they have already uploaded.</p>
               </div>
             </li>
             <li class="ed-row">
               <span class="ed-num">02</span>
               <div class="ed-body">
                 <span class="ed-tag">Autofill Suggestions</span>
-                <h3 class="ed-name">让表单建议<em>带证据</em></h3>
-                <p class="ed-desc">为个人信息、家庭、教育、考试、活动、荣誉等模块生成可接受、可忽略、可修改的建议。</p>
+                <h3 class="ed-name">Make form suggestions <em>reviewable</em></h3>
+                <p class="ed-desc">Suggest application fields in a way users can inspect, accept, edit, or ignore.</p>
               </div>
             </li>
             <li class="ed-row">
               <span class="ed-num">03</span>
               <div class="ed-body">
                 <span class="ed-tag">AI Counselor Context</span>
-                <h3 class="ed-name">顾问回答不再<em>凭空猜</em></h3>
-                <p class="ed-desc">AI 顾问可以先选择相关文件，再定位相关章节，而不是盲目读取全部材料。</p>
+                <h3 class="ed-name">Ground counselor guidance in the <em>student's reality</em></h3>
+                <p class="ed-desc">Give AI counseling experiences a better understanding of the student's actual background.</p>
               </div>
             </li>
             <li class="ed-row">
               <span class="ed-num">04</span>
               <div class="ed-body">
                 <span class="ed-tag">Essay Insights</span>
-                <h3 class="ed-name">文书建议连接<em>真实经历</em></h3>
-                <p class="ed-desc">文书分析可以结合学生真实经历、活动和背景，不再只看孤立作文。</p>
+                <h3 class="ed-name">Connect essays to <em>real experiences</em></h3>
+                <p class="ed-desc">Help essay feedback account for the student's activities, achievements, and context.</p>
               </div>
             </li>
             <li class="ed-row">
               <span class="ed-num">05</span>
               <div class="ed-body">
                 <span class="ed-tag">School Forms</span>
-                <h3 class="ed-name">学校表单复用<em>同一证据层</em></h3>
-                <p class="ed-desc">学校特定表单可以复用同一套证据层，减少重复填写和人工校对。</p>
+                <h3 class="ed-name">Reduce repeated <em>manual entry</em></h3>
+                <p class="ed-desc">Support school-specific forms with context the student has already reviewed.</p>
               </div>
             </li>
           </ol>
 
-          <h2 id="reliability">可靠性不是后台细节，而是<em>产品能力</em></h2>
+          <h2 id="reliability">Reliability Users Can <em>Feel</em></h2>
           <p>
-            文件理解天然是异步的：大 PDF 需要时间，扫描件可能需要视觉识别，多个文件上传后还要等它们全部就绪。Document Cortex 把这些不确定性显性化：
+            Document intelligence is only valuable if users understand what is happening. Document Cortex makes reliability a product experience, not a hidden backend detail.
           </p>
           <ul class="plain-list">
-            <li>文件处理有用户可见的状态，而不是静默失败。</li>
-            <li>超时或失败会进入可解释的失败状态，并提供重试路径。</li>
-            <li>如果用户在后台处理期间删除文件，系统不会把旧结果写回来。</li>
-            <li>如果新文件上传导致证据变化，旧的自动填表建议会被标记为过期，而不是继续误导用户。</li>
-            <li>当模型输出不稳定时，系统仍会尽量保留已验证的页级内容，并在必要时降级到更保守的结构化索引。</li>
+            <li>Students can tell whether uploaded materials are ready to use or need attention.</li>
+            <li>Unclear materials are treated conservatively instead of producing overconfident suggestions.</li>
+            <li>Updates to a student's materials can be reflected in downstream recommendations.</li>
+            <li>Users stay in control before important profile or form changes are applied.</li>
+            <li>The product favors reviewability over pretending every document is perfectly understood.</li>
           </ul>
           <p>
-            对用户来说，这意味着系统不是“黑盒读文件”，而是一个可观察、可恢复、可验证的申请助手。
+            For students and parents, that means less uncertainty. For counselors, it means cleaner context. For the product, it means AI features can be built on top of information users can actually trust.
           </p>
 
-          <h2 id="example">一个学生视角的<em>例子</em></h2>
+          <h2 id="example">A Student <em>Example</em></h2>
           <p>
-            假设学生上传了四份材料：成绩单、活动简历、SAT 成绩单和奖项证书。Document Cortex 会先识别每份材料的类型，建立页级 SourceMap。然后它会把成绩单里的 GPA、课程、年级信息，简历里的活动和职责，SAT 成绩单里的分项成绩，证书里的奖项名称和级别，分别连接到 Evidence Graph。
+            Imagine a student uploads a transcript, an activity resume, a score report, and a few award certificates. Instead of leaving those files in a folder, Document Cortex helps EZCollegeApp surface reviewable suggestions: academic information, test scores, activity entries, honors, and profile details.
           </p>
           <p>
-            接下来，Build Profile 页面不会只显示“文件已上传”。它会展示可审核建议：当前学校、GPA、标化成绩、活动条目、荣誉条目。每条建议都带有置信度、原因和证据片段。用户可以接受、忽略或修改。
+            The student can accept what looks right, edit what needs nuance, and ignore what does not belong. The product becomes less about retyping the same information again and again, and more about reviewing the application story for accuracy.
           </p>
           <p>
-            当学生之后问 AI 顾问：“我申请工程方向，活动背景够吗？”系统不会凭空回答。它会先在 Evidence Graph 中找到活动、课程、奖项和文书相关章节，再给出上下文相关的建议。
+            Later, when the student asks an AI counselor, "Is my engineering profile strong enough?" the answer can be grounded in the student's actual materials and reviewed profile, instead of generic advice detached from their background.
           </p>
 
-          <h2 id="why-matters">为什么这件事<em>重要</em></h2>
+          <h2 id="why-matters">Why This <em>Matters</em></h2>
           <p>
-            申请平台的竞争，最终不是谁能调用更大的模型，而是谁能把模型接到真实、可信、可操作的数据上。
+            The future of AI in college admissions will not be decided by flashy demos alone. It will be decided by who can connect AI experiences to trustworthy, user-reviewed application context.
           </p>
           <p>
-            学生不需要另一个“文件柜”。他们需要一个系统帮他们发现材料中的申请价值，减少重复填写，避免错填漏填，并在每一次 AI 建议背后保留证据。
+            Students do not need another place to store files. They need a system that helps them find the application value inside those files, reduce duplicate work, avoid avoidable mistakes, and stay in control of what gets used.
           </p>
           <p>
-            Document Cortex 让申请材料第一次从静态附件变成了动态能力层：它是 AI 顾问的上下文记忆，是自动填表的证据来源，是画像生成的事实基础，也是文书和选校建议的可信底座。
+            Document Cortex is how EZCollegeApp turns admissions materials from static attachments into a living product capability: context for AI guidance, support for form completion, a stronger foundation for profile review, and a more trustworthy basis for essay and school-planning insights.
           </p>
 
           <aside class="quote-band">
-            <h3>申请材料不是附件，而是 AI 申请助手的<em>事实底座</em>。</h3>
+            <h3>Application materials are not attachments. They are the trust layer for an AI admissions assistant.</h3>
             <p>
-              当材料可以被理解、被引用、被审核、被行动，申请流程就从“整理文件”进入了“智能协作”。
+              When materials can be reviewed, connected, and used responsibly, the admissions workflow moves from file management to intelligent collaboration.
             </p>
           </aside>
         </article>
@@ -959,7 +946,7 @@
     </main>
 
     <footer class="footer">
-      EZCollegeApp Blog Preview · Document Cortex draft · Open this file directly or serve it as a static page.
+      EZCollegeApp Blog Preview · Document Cortex English draft · Static preview for review.
     </footer>
   </div>
 
