@@ -1,0 +1,984 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#081B33" />
+  <title>Document Cortex: Turning Application Files into Trusted Context | EZCollegeApp Blog</title>
+  <meta
+    name="description"
+    content="How EZCollegeApp Document Cortex turns transcripts, resumes, score reports, essays, and supporting materials into trusted, reviewable application context."
+  />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500;1,600&family=Space+Grotesk:wght@500;600;700&display=swap");
+
+    :root {
+      --navy-deep: #081b33;
+      --navy: #0b2545;
+      --navy-700: #0b3a6e;
+      --navy-600: #16335f;
+      --navy-light: #0f3460;
+      --ivory: #f8f5f0;
+      --ivory-cool: #f5f1ec;
+      --ivory-soft: #fbf9f4;
+      --gold: #c9a84c;
+      --gold-600: #b8933e;
+      --amber: #fec28e;
+      --ink-1: #08060d;
+      --ink-2: #1f2937;
+      --ink-3: #334155;
+      --ink-4: #64748b;
+      --surface: #ffffff;
+      --hairline: rgba(11, 37, 69, 0.1);
+      --hairline-strong: rgba(11, 37, 69, 0.18);
+      --shadow-sm: 0 1px 3px rgba(11, 37, 69, 0.06);
+      --shadow: 0 16px 44px rgba(11, 37, 69, 0.12);
+      --ease: cubic-bezier(0.23, 1, 0.32, 1);
+      --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-grotesk: "Space Grotesk", "Inter", sans-serif;
+      --font-display: "Fraunces", Georgia, serif;
+      --font-flourish: "Playfair Display", Georgia, serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--ivory-cool);
+      color: var(--ink-2);
+      font-family: var(--font-sans);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    ::selection { background: rgba(254, 194, 142, 0.42); }
+
+    .progress {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 100;
+      height: 3px;
+      background: transparent;
+    }
+    .progress span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      transform-origin: 0 50%;
+      transform: scaleX(0);
+      background: linear-gradient(90deg, var(--amber), var(--gold), var(--navy-600));
+      box-shadow: 0 0 18px rgba(201, 168, 76, 0.55);
+    }
+
+    .blog-page {
+      min-height: 100vh;
+      overflow: clip;
+      background:
+        radial-gradient(circle at 88% 12%, rgba(254, 194, 142, 0.16), transparent 28rem),
+        radial-gradient(circle at 4% 38%, rgba(11, 58, 110, 0.08), transparent 26rem),
+        var(--ivory-cool);
+    }
+
+    .site-nav {
+      position: absolute;
+      inset: 0 0 auto;
+      z-index: 20;
+      padding: max(18px, env(safe-area-inset-top)) 18px 0;
+    }
+    .site-nav-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      color: rgba(255, 255, 255, 0.78);
+      font-family: var(--font-grotesk);
+      font-size: 13px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(254, 194, 142, 0.92), rgba(201, 168, 76, 0.88));
+      color: var(--navy-deep);
+      font-weight: 800;
+      box-shadow: 0 8px 24px rgba(201, 168, 76, 0.22);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      white-space: nowrap;
+    }
+    .nav-links a { color: rgba(255, 255, 255, 0.72); }
+    .nav-links a:hover { color: var(--amber); }
+    .nav-cta {
+      color: var(--navy-deep) !important;
+      background: linear-gradient(135deg, var(--amber), var(--gold));
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-weight: 700;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42), 0 10px 24px rgba(201, 168, 76, 0.2);
+    }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      min-height: 92svh;
+      color: #fff;
+      padding: 96px 0 74px;
+      background:
+        linear-gradient(180deg, #07090f 0%, #0a0a0c 26%, var(--navy) 56%, #29354e 72%, #746b60 86%, #d8c9aa 96%, var(--ivory-cool) 100%);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.38;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      z-index: -1;
+      height: 34vh;
+      background: radial-gradient(ellipse 95% 100% at 50% 100%, rgba(254, 194, 142, 0.22), rgba(254, 194, 142, 0.1) 38%, transparent 72%);
+      pointer-events: none;
+    }
+    .hero-glow {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 45% 36% at 95% 56%, rgba(254, 194, 142, 0.56), transparent 72%),
+        radial-gradient(ellipse 40% 34% at 74% 28%, rgba(201, 168, 76, 0.32), transparent 70%),
+        radial-gradient(ellipse 48% 42% at 2% 4%, rgba(55, 99, 184, 0.32), transparent 72%);
+      filter: saturate(1.04);
+    }
+    .stars {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .stars i {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.86);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.65);
+      opacity: 0.55;
+    }
+    .hero-container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 4vw, 42px);
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(300px, 0.86fr);
+      gap: clamp(34px, 6vw, 72px);
+      align-items: center;
+    }
+    .hero-copy { max-width: 760px; }
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(254, 194, 142, 0.32);
+      background: rgba(254, 194, 142, 0.12);
+      color: var(--amber);
+      font-family: var(--font-grotesk);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .hero-pill::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--amber);
+      box-shadow: 0 0 10px var(--amber);
+    }
+    h1 {
+      margin: 24px 0 0;
+      font-family: var(--font-grotesk);
+      font-size: clamp(42px, 8vw, 74px);
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+      color: #fff;
+      font-weight: 600;
+    }
+    h1 .gold {
+      display: block;
+      margin-top: 8px;
+      font-family: var(--font-flourish);
+      font-style: italic;
+      font-weight: 500;
+      color: var(--gold);
+      letter-spacing: -0.035em;
+      background: linear-gradient(90deg, var(--amber), var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      max-width: 620px;
+      margin: 24px 0 0;
+      font-family: var(--font-display);
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.58;
+    }
+    .hero-meta {
+      list-style: none;
+      margin: 30px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 9px;
+      color: rgba(255, 255, 255, 0.58);
+      font-family: var(--font-grotesk);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .hero-meta li {
+      position: relative;
+      padding-left: 18px;
+    }
+    .hero-meta li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.78em;
+      width: 8px;
+      height: 1px;
+      background: rgba(254, 194, 142, 0.72);
+    }
+    .hero-meta strong { color: rgba(255, 255, 255, 0.9); font-weight: 600; }
+
+    .hero-art {
+      position: relative;
+      margin-top: 32px;
+      align-self: end;
+    }
+    .hero-art-frame {
+      position: relative;
+      border-radius: 26px;
+      padding: 10px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04));
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(16px);
+    }
+    .hero-art-frame img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      border-radius: 18px;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+    }
+    .hero-art-caption {
+      margin-top: 12px;
+      color: rgba(255, 255, 255, 0.58);
+      font-family: var(--font-grotesk);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .article-section {
+      position: relative;
+      padding: clamp(42px, 8vw, 78px) 0 88px;
+      background: var(--ivory-cool);
+    }
+    .article-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(11, 37, 69, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(11, 37, 69, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.42;
+      pointer-events: none;
+    }
+    .article-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 4vw, 42px);
+      display: grid;
+      grid-template-columns: 230px minmax(0, 720px);
+      gap: clamp(34px, 6vw, 72px);
+      align-items: start;
+    }
+    .toc {
+      position: sticky;
+      top: 28px;
+      padding-top: 8px;
+    }
+    .toc-label {
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--hairline);
+      color: var(--gold-600);
+      font-family: var(--font-grotesk);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .toc-list {
+      list-style: none;
+      display: grid;
+      gap: 1px;
+      margin: 0;
+      padding: 0;
+    }
+    .toc-list a {
+      display: block;
+      padding: 9px 0 9px 14px;
+      border-left: 2px solid var(--hairline);
+      color: var(--ink-4);
+      font-family: var(--font-grotesk);
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.42;
+      transition: color 0.16s ease, border-color 0.16s ease;
+    }
+    .toc-list a.active,
+    .toc-list a:hover {
+      color: var(--navy);
+      border-left-color: var(--gold-600);
+    }
+
+    .prose {
+      max-width: 720px;
+    }
+    .prose > p {
+      margin: 0 0 21px;
+      color: var(--ink-3);
+      font-size: 17px;
+      line-height: 1.78;
+    }
+    .prose > p:first-of-type::first-letter {
+      float: left;
+      margin: 0.35rem 0.62rem 0 0;
+      color: var(--gold-600);
+      font-family: var(--font-flourish);
+      font-size: 4rem;
+      font-style: italic;
+      font-weight: 600;
+      line-height: 0.94;
+    }
+    .prose strong { color: var(--navy); font-weight: 700; }
+    .prose h2 {
+      margin: 64px 0 20px;
+      scroll-margin-top: 22px;
+      color: var(--navy);
+      font-family: var(--font-grotesk);
+      font-size: clamp(28px, 4vw, 36px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+    }
+    .prose h2::before {
+      content: "";
+      display: block;
+      width: 34px;
+      height: 2px;
+      margin-bottom: 16px;
+      background: var(--gold-600);
+    }
+    .prose h2 em {
+      color: var(--gold-600);
+      font-family: var(--font-flourish);
+      font-style: italic;
+      font-weight: 500;
+    }
+    .prose h3 {
+      margin: 26px 0 9px;
+      color: var(--navy);
+      font-family: var(--font-grotesk);
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1.32;
+    }
+    .prose ul,
+    .prose ol {
+      margin: 22px 0 28px;
+      padding: 0;
+      list-style: none;
+    }
+    .prose .plain-list li {
+      position: relative;
+      margin: 0 0 12px;
+      padding-left: 26px;
+      color: var(--ink-3);
+      font-size: 16px;
+      line-height: 1.68;
+    }
+    .prose .plain-list li::before {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 0.82em;
+      width: 10px;
+      height: 2px;
+      background: var(--gold-600);
+    }
+    .callout {
+      margin: 30px 0;
+      padding: 22px 24px;
+      border: 1px solid var(--hairline);
+      border-left: 3px solid var(--gold-600);
+      border-radius: 12px;
+      background: var(--surface);
+      box-shadow: var(--shadow-sm);
+    }
+    .callout-title,
+    .tag {
+      color: var(--gold-600);
+      font-family: var(--font-grotesk);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .callout p {
+      margin: 8px 0 0;
+      color: var(--ink-3);
+      font-size: 16px;
+      line-height: 1.68;
+    }
+    .figure-card {
+      margin: 36px 0 42px;
+      border: 1px solid var(--hairline);
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+    .figure-card img {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+    .figure-card figcaption {
+      padding: 14px 18px 16px;
+      color: var(--ink-4);
+      font-family: var(--font-grotesk);
+      font-size: 13px;
+      line-height: 1.5;
+      border-top: 1px solid var(--hairline);
+      background: linear-gradient(180deg, #fff, var(--ivory-soft));
+    }
+    .research {
+      margin: 34px 0;
+      padding: 30px;
+      border: 1px solid var(--hairline);
+      border-radius: 18px;
+      background: var(--ivory-soft);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+    }
+    .research .title {
+      margin: 10px 0 0;
+      color: var(--navy);
+      font-family: var(--font-grotesk);
+      font-size: 22px;
+      font-weight: 600;
+      line-height: 1.28;
+      letter-spacing: -0.015em;
+    }
+    .research .title em {
+      color: var(--gold-600);
+      font-family: var(--font-flourish);
+      font-style: italic;
+      font-weight: 500;
+    }
+    .editorial-list {
+      margin: 36px 0 10px;
+      border-top: 1px solid var(--hairline-strong);
+    }
+    .ed-row {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 26px;
+      padding: 26px 0 28px;
+      border-bottom: 1px solid var(--hairline);
+    }
+    .ed-num {
+      padding-top: 4px;
+      color: var(--gold-600);
+      font-family: var(--font-flourish);
+      font-size: clamp(38px, 5vw, 54px);
+      font-style: italic;
+      font-weight: 600;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+    }
+    .ed-tag {
+      display: inline-block;
+      margin-bottom: 9px;
+      color: var(--gold-600);
+      font-family: var(--font-grotesk);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .ed-name {
+      margin: 0 0 9px;
+      color: var(--navy);
+      font-family: var(--font-grotesk);
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.24;
+    }
+    .ed-name em {
+      color: var(--gold-600);
+      font-family: var(--font-flourish);
+      font-style: italic;
+      font-weight: 500;
+    }
+    .ed-desc {
+      max-width: 58ch;
+      margin: 0;
+      color: var(--ink-3);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+    .quote-band {
+      margin: 52px 0 12px;
+      padding: 38px 42px;
+      border: 1px solid var(--hairline);
+      border-radius: 20px;
+      background:
+        radial-gradient(circle at 8% 0%, rgba(254, 194, 142, 0.18), transparent 42%),
+        linear-gradient(180deg, var(--surface), var(--ivory-soft));
+      box-shadow: var(--shadow-sm);
+    }
+    .quote-band h3 {
+      margin: 0 0 14px;
+      color: var(--navy);
+      font-family: var(--font-grotesk);
+      font-size: clamp(24px, 4vw, 34px);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.14;
+    }
+    .quote-band h3 em {
+      color: var(--gold-600);
+      font-family: var(--font-flourish);
+      font-style: italic;
+      font-weight: 500;
+    }
+    .quote-band p {
+      max-width: 620px;
+      margin: 0;
+      color: var(--ink-3);
+      font-size: 16px;
+      line-height: 1.68;
+    }
+    .footer {
+      padding: 30px 18px calc(32px + env(safe-area-inset-bottom));
+      background: var(--navy-deep);
+      color: rgba(255, 255, 255, 0.56);
+      text-align: center;
+      font-family: var(--font-grotesk);
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .hero { min-height: auto; padding-top: 90px; }
+      .hero-container { grid-template-columns: 1fr; }
+      .hero-art { margin-top: 4px; }
+      .article-wrap { grid-template-columns: 1fr; gap: 28px; }
+      .toc {
+        position: static;
+        max-width: 720px;
+        overflow: hidden;
+      }
+      .toc-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 12px;
+      }
+    }
+    @media (max-width: 720px) {
+      .site-nav { padding-inline: 16px; }
+      .site-nav-inner { align-items: center; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .hero {
+        padding: 86px 0 56px;
+      }
+      .hero-container,
+      .article-wrap {
+        padding-inline: 18px;
+      }
+      .hero-pill {
+        font-size: 10px;
+        letter-spacing: 0.14em;
+      }
+      h1 {
+        font-size: clamp(39px, 12vw, 54px);
+      }
+      .hero-sub {
+        font-size: 17px;
+      }
+      .hero-meta {
+        font-size: 12px;
+      }
+      .hero-art-frame {
+        margin-inline: -4px;
+        border-radius: 18px;
+        padding: 7px;
+      }
+      .hero-art-frame img {
+        border-radius: 13px;
+      }
+      .article-section {
+        padding-top: 36px;
+      }
+      .toc-list {
+        grid-template-columns: 1fr;
+        max-height: 230px;
+        overflow: auto;
+        padding-right: 8px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .prose > p {
+        font-size: 16px;
+        line-height: 1.76;
+      }
+      .prose > p:first-of-type::first-letter {
+        font-size: 3.35rem;
+      }
+      .prose h2 {
+        margin-top: 48px;
+        font-size: 27px;
+      }
+      .figure-card {
+        margin-inline: -4px;
+        border-radius: 15px;
+      }
+      .research,
+      .callout,
+      .quote-band {
+        padding: 22px;
+      }
+      .ed-row {
+        grid-template-columns: 1fr;
+        gap: 2px;
+        padding: 22px 0;
+      }
+      .ed-num {
+        font-size: 25px;
+        line-height: 1;
+        padding-top: 0;
+      }
+      .ed-name {
+        font-size: 19px;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+  <div class="blog-page">
+    <nav class="site-nav" aria-label="EZCollegeApp">
+      <div class="site-nav-inner">
+        <a class="brand" href="https://ezcollegeapp.com/" aria-label="EZCollegeApp home">
+          <span class="brand-mark">E</span>
+          <span>EZCollegeApp</span>
+        </a>
+        <div class="nav-links">
+          <a href="https://ezcollegeapp.com/blog">Blog</a>
+          <a href="https://ezcollegeapp.com/ai-ethics-policies">AI Policies</a>
+          <a class="nav-cta" href="https://ezcollegeapp.com/">Explore</a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="stars" aria-hidden="true">
+        <i style="top:9%;left:17%"></i><i style="top:14%;left:76%"></i>
+        <i style="top:25%;left:47%"></i><i style="top:39%;left:88%"></i>
+        <i style="top:64%;left:8%"></i><i style="top:18%;left:35%"></i>
+        <i style="top:43%;left:62%"></i><i style="top:31%;left:22%"></i>
+      </div>
+      <div class="hero-container">
+        <div class="hero-copy">
+          <div class="hero-pill">Product Deep Dive · June 2026</div>
+          <h1>
+            Document Cortex
+            <span class="gold">Turning application files into trusted context</span>
+          </h1>
+          <p class="hero-sub">
+            Uploaded materials should not sit in a digital file cabinet. They should help students review facts, complete forms, strengthen essays, and get guidance they can trust.
+          </p>
+          <ul class="hero-meta" aria-label="Article metadata">
+            <li><strong>EZCollegeApp Team</strong> — Product and applied AI</li>
+            <li><strong>7 min read</strong> · Built for students, families, and counselors</li>
+            <li><strong>Core idea</strong>: application materials should power trustworthy action, not just storage</li>
+          </ul>
+        </div>
+        <figure class="hero-art" aria-label="Document Cortex illustration">
+          <div class="hero-art-frame">
+            <img src="assets/document-cortex-hero.png" alt="Document Cortex turns application materials into profile review, form suggestions, counselor context, and essay insights." />
+          </div>
+          <figcaption class="hero-art-caption">
+            Document Cortex turns uploaded application materials into trusted context for the parts of the application workflow that need accuracy.
+          </figcaption>
+        </figure>
+      </div>
+    </header>
+
+    <main class="article-section">
+      <div class="article-wrap">
+        <aside class="toc" aria-label="Article guide">
+          <div class="toc-label">Guide</div>
+          <ol class="toc-list">
+            <li><a class="active" href="#why">Why storage is not enough</a></li>
+            <li><a href="#cortex">What Document Cortex does</a></li>
+            <li><a href="#trust">Trust built in</a></li>
+            <li><a href="#actions">Application actions</a></li>
+            <li><a href="#reliability">Reliability users can feel</a></li>
+            <li><a href="#example">A student example</a></li>
+            <li><a href="#why-matters">Why it matters</a></li>
+          </ol>
+        </aside>
+
+        <article class="prose">
+          <p>
+            In college admissions, the hardest work is often not writing one more sentence. It is knowing whether the facts behind that sentence are correct. A student may have transcripts, activity resumes, award certificates, score reports, identity documents, essay drafts, and school-specific forms spread across different files.
+          </p>
+          <p>
+            Most products treat those materials as attachments: upload them, store them, maybe summarize them later. But an admissions workflow needs more than a file cabinet. It needs trustworthy context that can support decisions, suggestions, and review.
+          </p>
+
+          <div class="callout">
+            <div class="callout-title">The Core Idea</div>
+            <p>
+              Document Cortex is not a document storage feature. It is the intelligence layer that helps EZCollegeApp turn uploaded materials into private, reviewable application context for profile building, form completion, essay feedback, and AI counselor guidance.
+            </p>
+          </div>
+
+          <h2 id="why">Why File Storage Is <em>Not Enough</em></h2>
+          <p>
+            Reading words from a file is only the beginning. In admissions, a single detail can affect school planning, profile review, application forms, essay strategy, and counselor advice. A GPA is not just a number. An activity description is not just a paragraph. An award is not just a line item.
+          </p>
+          <p>The real challenge has three parts:</p>
+          <ul class="plain-list">
+            <li><strong>Materials are messy.</strong> Admissions files come in different formats, qualities, and structures.</li>
+            <li><strong>Information can conflict.</strong> A student's profile, old resume, latest transcript, and counselor notes may disagree.</li>
+            <li><strong>AI must stay accountable.</strong> When a system suggests a date, score, award, or activity, the user needs a clear reason to trust it.</li>
+          </ul>
+          <p>
+            Document Cortex is built around that reality. It does not try to make uploaded files disappear into a black box. It helps turn them into context that students and families can review before they act.
+          </p>
+
+          <figure class="figure-card">
+            <img src="assets/document-cortex-hero.png" alt="Document Cortex system diagram" />
+            <figcaption>
+              From real application materials to the product experiences that need reliable context: profile review, form suggestions, counselor guidance, and essay insights.
+            </figcaption>
+          </figure>
+
+          <h2 id="cortex">What Document Cortex <em>Does</em></h2>
+          <p>
+            Document Cortex gives EZCollegeApp a consistent way to turn application materials into usable context across the product. The promise is simple: keep the student in control, preserve the source of truth, and turn files into support for real application work.
+          </p>
+          <p>
+            That context can help the product recognize which facts are likely ready to use, which facts need confirmation, and which areas deserve a more cautious recommendation. The result is not "AI read my files." The result is "the system can help me move through my application with more confidence."
+          </p>
+
+          <div class="research">
+            <div class="tag">Design Principle</div>
+            <div class="title">Product intelligence should be useful only when it is also <em>reviewable</em>.</div>
+            <p>
+              The strongest AI experiences in admissions are not the most dramatic. They are the ones that explain themselves clearly enough for a family to make a decision.
+            </p>
+          </div>
+
+          <h2 id="trust">Trust Built <em>In</em></h2>
+          <p>
+            Admissions work is too important for silent assumptions. Document Cortex is designed to keep a clear distinction between what a file supports, what the student has already entered, and what the system is recommending.
+          </p>
+          <ul class="plain-list">
+            <li><strong>Grounded suggestions.</strong> Important recommendations are connected to the materials that support them.</li>
+            <li><strong>Visible uncertainty.</strong> If a detail is incomplete or potentially conflicting, the product treats it as something to review, not something to hide.</li>
+            <li><strong>User control.</strong> Students can accept, edit, or ignore suggestions instead of letting automation overwrite their application.</li>
+            <li><strong>Private by design.</strong> Application context exists to help the student's workflow, not to become public data.</li>
+          </ul>
+          <p>
+            This is the difference between a helpful assistant and a confident black box. The goal is not to remove judgment from the application process. The goal is to make judgment faster, better informed, and easier to verify.
+          </p>
+
+          <h2 id="actions">From Context to <em>Action</em></h2>
+          <p>
+            Once application materials become trusted context, they can support the parts of the admissions workflow that create the most repetitive work for students and families.
+          </p>
+
+          <ol class="editorial-list">
+            <li class="ed-row">
+              <span class="ed-num">01</span>
+              <div class="ed-body">
+                <span class="ed-tag">Verified Profile</span>
+                <h3 class="ed-name">Review the student profile with <em>more confidence</em></h3>
+                <p class="ed-desc">Help students compare their profile against the materials they have already uploaded.</p>
+              </div>
+            </li>
+            <li class="ed-row">
+              <span class="ed-num">02</span>
+              <div class="ed-body">
+                <span class="ed-tag">Autofill Suggestions</span>
+                <h3 class="ed-name">Make form suggestions <em>reviewable</em></h3>
+                <p class="ed-desc">Suggest application fields in a way users can inspect, accept, edit, or ignore.</p>
+              </div>
+            </li>
+            <li class="ed-row">
+              <span class="ed-num">03</span>
+              <div class="ed-body">
+                <span class="ed-tag">AI Counselor Context</span>
+                <h3 class="ed-name">Ground counselor guidance in the <em>student's reality</em></h3>
+                <p class="ed-desc">Give AI counseling experiences a better understanding of the student's actual background.</p>
+              </div>
+            </li>
+            <li class="ed-row">
+              <span class="ed-num">04</span>
+              <div class="ed-body">
+                <span class="ed-tag">Essay Insights</span>
+                <h3 class="ed-name">Connect essays to <em>real experiences</em></h3>
+                <p class="ed-desc">Help essay feedback account for the student's activities, achievements, and context.</p>
+              </div>
+            </li>
+            <li class="ed-row">
+              <span class="ed-num">05</span>
+              <div class="ed-body">
+                <span class="ed-tag">School Forms</span>
+                <h3 class="ed-name">Reduce repeated <em>manual entry</em></h3>
+                <p class="ed-desc">Support school-specific forms with context the student has already reviewed.</p>
+              </div>
+            </li>
+          </ol>
+
+          <h2 id="reliability">Reliability Users Can <em>Feel</em></h2>
+          <p>
+            Document intelligence is only valuable if users understand what is happening. Document Cortex makes reliability a product experience, not a hidden backend detail.
+          </p>
+          <ul class="plain-list">
+            <li>Students can tell whether uploaded materials are ready to use or need attention.</li>
+            <li>Unclear materials are treated conservatively instead of producing overconfident suggestions.</li>
+            <li>Updates to a student's materials can be reflected in downstream recommendations.</li>
+            <li>Users stay in control before important profile or form changes are applied.</li>
+            <li>The product favors reviewability over pretending every document is perfectly understood.</li>
+          </ul>
+          <p>
+            For students and parents, that means less uncertainty. For counselors, it means cleaner context. For the product, it means AI features can be built on top of information users can actually trust.
+          </p>
+
+          <h2 id="example">A Student <em>Example</em></h2>
+          <p>
+            Imagine a student uploads a transcript, an activity resume, a score report, and a few award certificates. Instead of leaving those files in a folder, Document Cortex helps EZCollegeApp surface reviewable suggestions: academic information, test scores, activity entries, honors, and profile details.
+          </p>
+          <p>
+            The student can accept what looks right, edit what needs nuance, and ignore what does not belong. The product becomes less about retyping the same information again and again, and more about reviewing the application story for accuracy.
+          </p>
+          <p>
+            Later, when the student asks an AI counselor, "Is my engineering profile strong enough?" the answer can be grounded in the student's actual materials and reviewed profile, instead of generic advice detached from their background.
+          </p>
+
+          <h2 id="why-matters">Why This <em>Matters</em></h2>
+          <p>
+            The future of AI in college admissions will not be decided by flashy demos alone. It will be decided by who can connect AI experiences to trustworthy, user-reviewed application context.
+          </p>
+          <p>
+            Students do not need another place to store files. They need a system that helps them find the application value inside those files, reduce duplicate work, avoid avoidable mistakes, and stay in control of what gets used.
+          </p>
+          <p>
+            Document Cortex is how EZCollegeApp turns admissions materials from static attachments into a living product capability: context for AI guidance, support for form completion, a stronger foundation for profile review, and a more trustworthy basis for essay and school-planning insights.
+          </p>
+
+          <aside class="quote-band">
+            <h3>Application materials are not attachments. They are the trust layer for an AI admissions assistant.</h3>
+            <p>
+              When materials can be reviewed, connected, and used responsibly, the admissions workflow moves from file management to intelligent collaboration.
+            </p>
+          </aside>
+        </article>
+      </div>
+    </main>
+
+    <footer class="footer">
+      EZCollegeApp Blog Preview · Document Cortex English draft · Static preview for review.
+    </footer>
+  </div>
+
+  <script>
+    const progressBar = document.getElementById("progress-bar");
+    const tocLinks = Array.from(document.querySelectorAll(".toc-list a"));
+    const sections = tocLinks
+      .map((link) => document.querySelector(link.getAttribute("href")))
+      .filter(Boolean);
+
+    function updateProgress() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = height > 0 ? Math.min(1, Math.max(0, scrollTop / height)) : 0;
+      progressBar.style.transform = `scaleX(${progress})`;
+
+      let activeId = sections[0] ? sections[0].id : "";
+      for (const section of sections) {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= 140) activeId = section.id;
+      }
+      tocLinks.forEach((link) => {
+        const active = link.getAttribute("href") === `#${activeId}`;
+        link.classList.toggle("active", active);
+        if (active) link.setAttribute("aria-current", "true");
+        else link.removeAttribute("aria-current");
+      });
+    }
+
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+    updateProgress();
+  </script>
+</body>
+</html>
